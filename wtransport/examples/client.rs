@@ -1,3 +1,4 @@
+use std::time::Duration;
 use wtransport::ClientConfig;
 use wtransport::Endpoint;
 
@@ -16,5 +17,7 @@ async fn main() {
 
     let mut stream = connection.open_bi().await.unwrap().await.unwrap();
     stream.0.write_all(b"HELLO").await.unwrap();
+    tokio::time::sleep(Duration::from_millis(1)).await;
+    stream.0.write_all(b"HOWDY").await.unwrap();
     stream.0.finish().await.unwrap();
 }
